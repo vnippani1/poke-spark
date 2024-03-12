@@ -10,7 +10,7 @@ spark = SparkSession.builder.appName("App").getOrCreate()
 class PokeSpark:
     def __init__(self) -> None:
         self.pkData = spark.read.option("header", "true").option("inferSchema", "true").csv("/opt/spark/pokemon.csv")
-        # self.pkData = spark.read.option("header", "true").option("inferSchema", "true").csv("file:///SparkCourse/pokemon.csv")
+        self.pkData = self.pkData.withColumn("Nm", func.when(func.col("Name").contains("Mega "), func.concat(func.split(func.col("Name")," ").getItem(1),func.lit(" Mega"))).otherwise(func.col("Name")))
         self.pkData = self.pkData.withColumnRenamed("Sp. Atk", "SpAtk").withColumnRenamed("Sp. Def", "SpDef").withColumnRenamed("Type 1","Type1").withColumnRenamed("Type 2","Type2")
         self.pkData = self.pkData.withColumn("BST", func.col("HP") + func.col("Attack") + func.col("Defense") + func.col("SpAtk") + func.col("SpDef") + func.col("Speed"))
     
@@ -50,4 +50,4 @@ def get_pokemon():
     return render_template('index.html', pokemon_data=pandas_df.to_dict(orient='records'))
 
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0",port=int("3000"))
+    app.run(debug=False,host="0.0.0.0",port=int("3000"))
