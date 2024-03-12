@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Finder</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Pokemon Finder</h1>
+        <form id="pokemonForm" action="/pokemon" method="GET">
+            <div class="form-group">
+                <label for="firstLetter">First Letter:</label>
+                <input type="text" class="form-control" id="firstLetter" name="first_letter" maxlength="1">
+            </div>
+            <div class="form-group">
+                <label for="type1">Type 1:</label>
+                <input type="text" class="form-control" id="type1" name="type1">
+            </div>
+            <div class="form-group">
+                <label for="type2">Type 2:</label>
+                <input type="text" class="form-control" id="type2" name="type2">
+            </div>
+            <div class="form-group">
+                <label for="gen">Generation:</label>
+                <input type="text" class="form-control" id="gen" name="gen">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <div id="resultContainer" class="mt-5">
+            <h2>Search Results</h2>
+            <table class="table" id="pokemonTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Type 1</th>
+                        <th>Type 2</th>
+                        <th>Generation</th>
+                        <th>HP</th>
+                        <th>Attack</th>
+                        <th>Defense</th>
+                        <th>Sp. Atk</th>
+                        <th>Sp. Def</th>
+                        <th>Speed</th>
+                        <th>BST</th>
+                    </tr>
+                </thead>
+                <tbody id="pokemonTableBody">
+                    {% if pokemon_data %}
+                    {% for pokemon in pokemon_data %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ pokemon['Name'] }}</td>
+                        <td>{{ pokemon['Type1'] }}</td>
+                        <td>{{ pokemon['Type2'] }}</td>
+                        <td>{{ pokemon['Generation'] }}</td>
+                        <td>{{ pokemon['HP'] }}</td>
+                        <td>{{ pokemon['Attack'] }}</td>
+                        <td>{{ pokemon['Defense'] }}</td>
+                        <td>{{ pokemon['SpAtk'] }}</td>
+                        <td>{{ pokemon['SpDef'] }}</td>
+                        <td>{{ pokemon['Speed'] }}</td>
+                        <td>{{ pokemon['BST'] }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="12">No data found</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
